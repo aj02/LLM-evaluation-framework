@@ -1,0 +1,46 @@
+# Don't ship build artifacts or local state into the image.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.tox/
+.nox/
+
+# Local virtualenvs
+.venv/
+venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Docker meta — Dockerfile + compose config aren't needed inside the image,
+# but docker-entrypoint.sh IS copied by the Dockerfile so we keep it.
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# Git internals
+.git/
+.gitignore
+.github/
+
+# Top-level run artifacts (per-example runs/ stays in the image so the
+# default `demo` command can compare against them; only top-level runs/
+# is excluded).
+/runs/
+
+# Docs build output
+site/
+.cache/

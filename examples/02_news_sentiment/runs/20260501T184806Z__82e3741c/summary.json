@@ -1,0 +1,32 @@
+{
+  "run_id": "20260501T184806Z__82e3741c",
+  "started_at": "2026-05-01T18:48:06.709243Z",
+  "finished_at": "2026-05-01T18:48:06.709212Z",
+  "dataset_path": "/app/examples/02_news_sentiment/dataset.jsonl",
+  "target_summary": {
+    "type": "CallableTarget",
+    "name": "mock-keyword-sentiment",
+    "fn": "_mock_sentiment"
+  },
+  "n_cases": 20,
+  "n_passed": 16,
+  "n_failed": 4,
+  "n_errored": 0,
+  "pass_rate": 0.8,
+  "aggregate_metrics": [
+    {
+      "name": "exact_match",
+      "mean": 0.8,
+      "pass_rate": 0.8,
+      "n": 20
+    }
+  ],
+  "latency_ms": {
+    "mean": 0.07047445251373574,
+    "p50": 0.061704005929641426,
+    "p95": 0.13202381669543686,
+    "p99": 0.17616157303564242,
+    "max": 0.18719601212069392
+  },
+  "framework_version": "0.1.0"
+}

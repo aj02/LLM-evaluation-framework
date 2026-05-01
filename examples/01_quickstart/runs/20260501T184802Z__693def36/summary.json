@@ -1,0 +1,32 @@
+{
+  "run_id": "20260501T184802Z__693def36",
+  "started_at": "2026-05-01T18:48:03.105287Z",
+  "finished_at": "2026-05-01T18:48:03.105257Z",
+  "dataset_path": "/app/examples/01_quickstart/dataset.jsonl",
+  "target_summary": {
+    "type": "CallableTarget",
+    "name": "uppercase",
+    "fn": "uppercase_target"
+  },
+  "n_cases": 5,
+  "n_passed": 5,
+  "n_failed": 0,
+  "n_errored": 0,
+  "pass_rate": 1.0,
+  "aggregate_metrics": [
+    {
+      "name": "exact_match",
+      "mean": 1.0,
+      "pass_rate": 1.0,
+      "n": 5
+    }
+  ],
+  "latency_ms": {
+    "mean": 0.02188298967666924,
+    "p50": 0.02096800017170608,
+    "p95": 0.024763389956206083,
+    "p99": 0.024992667604237795,
+    "max": 0.025049987016245723
+  },
+  "framework_version": "0.1.0"
+}

@@ -1,0 +1,171 @@
+{
+  "source_path": "/app/examples/04_model_comparison/dataset.jsonl",
+  "n_cases": 15,
+  "cases": [
+    {
+      "id": "qa_001",
+      "input": {
+        "prompt": "What is the capital of France? Answer in one word."
+      },
+      "expected": "Paris",
+      "metadata": {
+        "category": "geography"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_002",
+      "input": {
+        "prompt": "What is the chemical symbol for gold? Answer in one or two letters only."
+      },
+      "expected": "Au",
+      "metadata": {
+        "category": "chemistry"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_003",
+      "input": {
+        "prompt": "Who wrote 'Pride and Prejudice'? Answer with the author's full name only."
+      },
+      "expected": "Jane Austen",
+      "metadata": {
+        "category": "literature"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_004",
+      "input": {
+        "prompt": "What is 17 multiplied by 23? Answer with the integer only."
+      },
+      "expected": "391",
+      "metadata": {
+        "category": "math"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_005",
+      "input": {
+        "prompt": "What is the smallest prime number greater than 100? Answer with the integer only."
+      },
+      "expected": "101",
+      "metadata": {
+        "category": "math"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_006",
+      "input": {
+        "prompt": "In what year did World War II end? Answer with the year only."
+      },
+      "expected": "1945",
+      "metadata": {
+        "category": "history"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_007",
+      "input": {
+        "prompt": "What is the boiling point of water in Celsius at sea level? Answer with the integer only."
+      },
+      "expected": "100",
+      "metadata": {
+        "category": "science"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_008",
+      "input": {
+        "prompt": "What is the largest planet in our solar system? Answer with one word."
+      },
+      "expected": "Jupiter",
+      "metadata": {
+        "category": "science"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_009",
+      "input": {
+        "prompt": "Who painted the Mona Lisa? Answer with the artist's full name only."
+      },
+      "expected": "Leonardo da Vinci",
+      "metadata": {
+        "category": "art"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_010",
+      "input": {
+        "prompt": "What is the square root of 144? Answer with the integer only."
+      },
+      "expected": "12",
+      "metadata": {
+        "category": "math"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_011",
+      "input": {
+        "prompt": "What is the chemical formula for water?"
+      },
+      "expected": "H2O",
+      "metadata": {
+        "category": "chemistry"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_012",
+      "input": {
+        "prompt": "What was the name of the first man on the moon? Answer with the full name."
+      },
+      "expected": "Neil Armstrong",
+      "metadata": {
+        "category": "history"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_013",
+      "input": {
+        "prompt": "How many continents are there? Answer with the integer only."
+      },
+      "expected": "7",
+      "metadata": {
+        "category": "geography"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_014",
+      "input": {
+        "prompt": "Who is the author of '1984'? Answer with the author's name only."
+      },
+      "expected": "George Orwell",
+      "metadata": {
+        "category": "literature"
+      },
+      "evaluators": null
+    },
+    {
+      "id": "qa_015",
+      "input": {
+        "prompt": "What is the speed of light in a vacuum, in meters per second, in scientific notation to one decimal? E.g., 1.0e8."
+      },
+      "expected": "3.0e8",
+      "metadata": {
+        "category": "physics"
+      },
+      "evaluators": null
+    }
+  ]
+}

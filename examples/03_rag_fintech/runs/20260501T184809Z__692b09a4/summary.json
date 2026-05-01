@@ -1,0 +1,38 @@
+{
+  "run_id": "20260501T184809Z__692b09a4",
+  "started_at": "2026-05-01T18:48:10.259057Z",
+  "finished_at": "2026-05-01T18:48:10.259024Z",
+  "dataset_path": "/app/examples/03_rag_fintech/dataset.jsonl",
+  "target_summary": {
+    "type": "CallableTarget",
+    "name": "mock-keyword-rag",
+    "fn": "_mock_rag_factory.<locals>.fn"
+  },
+  "n_cases": 30,
+  "n_passed": 26,
+  "n_failed": 4,
+  "n_errored": 0,
+  "pass_rate": 0.8666666666666667,
+  "aggregate_metrics": [
+    {
+      "name": "retrieval",
+      "mean": 0.8666666666666667,
+      "pass_rate": 0.8666666666666667,
+      "n": 30
+    },
+    {
+      "name": "answer_exact_match",
+      "mean": 0.8666666666666667,
+      "pass_rate": 0.8666666666666667,
+      "n": 30
+    }
+  ],
+  "latency_ms": {
+    "mean": 0.17930409618808577,
+    "p50": 0.17037549696397036,
+    "p95": 0.31675299833295845,
+    "p99": 0.37499796628253534,
+    "max": 0.38514999323524535
+  },
+  "framework_version": "0.1.0"
+}

@@ -1,0 +1,59 @@
+# Compose file for evalkit.
+#
+# One-command demo:
+#     docker compose run --rm demo
+#
+# Run the test suite:
+#     docker compose run --rm tests
+#
+# Use the CLI against your own dataset (in your current directory):
+#     docker compose run --rm cli evalkit run dataset.jsonl --target target.yaml
+#     docker compose run --rm cli evalkit list-runs
+#     docker compose run --rm cli evalkit compare <run_id_a> <run_id_b>
+#
+# Pass API keys to enable LLM judge / live model targets:
+#     ANTHROPIC_API_KEY=sk-ant-... docker compose run --rm cli \
+#         python examples/03_rag_fintech/run.py
+
+services:
+  # Default service: runs all examples and exits.
+  demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: evalkit:latest
+    command: ["demo"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - EVALKIT_JUDGE=${EVALKIT_JUDGE:-anthropic:claude-sonnet-4-6}
+    volumes:
+      # Persist generated artifacts on the host so you can open the HTML
+      # dashboards in a browser after the container exits.
+      - ./examples:/app/examples
+
+  # Run the test suite inside the container.
+  tests:
+    image: evalkit:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["tests"]
+
+  # Interactive use: bring your own dataset / target.yaml in cwd.
+  cli:
+    image: evalkit:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # No fixed command — supply one when invoking:
+    #   docker compose run --rm cli evalkit run my.jsonl --target my.yaml
+    entrypoint: ["docker-entrypoint"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - EVALKIT_JUDGE=${EVALKIT_JUDGE:-anthropic:claude-sonnet-4-6}
+    volumes:
+      # Mount the user's working dir at /work and start the container there.
+      - ./:/work
+    working_dir: /work

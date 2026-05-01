@@ -1,0 +1,1801 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>evalkit — 20260501T184809Z__692b09a4</title>
+<style>
+:root {
+  --bg: #0e1116; --panel: #161b22; --panel2: #1f2530;
+  --fg: #e6edf3; --muted: #8b949e; --border: #30363d;
+  --green: #3fb950; --red: #f85149; --amber: #d29922; --blue: #58a6ff;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg: #ffffff; --panel: #f6f8fa; --panel2: #eaeef2; --fg: #1f2328;
+          --muted: #57606a; --border: #d0d7de;
+          --green: #1a7f37; --red: #cf222e; --amber: #9a6700; --blue: #0969da; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 2rem; background: var(--bg); color: var(--fg);
+       font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+       Helvetica, Arial, sans-serif; }
+header { margin-bottom: 1.5rem; }
+h1 { margin: 0 0 .25rem; font-size: 1.4rem; }
+h2 { margin: 1.5rem 0 .5rem; font-size: 1.1rem; }
+.muted { color: var(--muted); }
+code { background: var(--panel2); padding: .1rem .35rem; border-radius: 4px;
+       font: 12.5px/1.4 "JetBrains Mono", "SF Mono", Menlo, monospace; }
+.grid { display: grid; gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.card { background: var(--panel); border: 1px solid var(--border);
+        border-radius: 8px; padding: 1rem; }
+.card .label { color: var(--muted); font-size: .8rem;
+               text-transform: uppercase; letter-spacing: .05em; }
+.card .value { font-size: 1.6rem; font-weight: 600; margin-top: .25rem; }
+.card .delta { font-size: .85rem; margin-top: .25rem; }
+.delta.good { color: var(--green); }
+.delta.bad { color: var(--red); }
+.delta.neutral { color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin-top: .5rem;
+        background: var(--panel); border: 1px solid var(--border);
+        border-radius: 8px; overflow: hidden; }
+th, td { padding: .55rem .75rem; text-align: left;
+         border-bottom: 1px solid var(--border); }
+th { background: var(--panel2); font-weight: 600; font-size: .85rem;
+     color: var(--muted); }
+tr:last-child td { border-bottom: none; }
+.pass { color: var(--green); font-weight: 600; }
+.fail { color: var(--red); font-weight: 600; }
+.err { color: var(--amber); font-weight: 600; }
+.scorebar { display: inline-block; width: 80px; height: 6px;
+            background: var(--panel2); border-radius: 3px;
+            vertical-align: middle; margin-right: .5rem; overflow: hidden; }
+.scorebar > span { display: block; height: 100%; background: var(--blue); }
+.right { text-align: right; }
+details { background: var(--panel); border: 1px solid var(--border);
+          border-radius: 6px; padding: .5rem .8rem; margin: .35rem 0; }
+details > summary { cursor: pointer; font-weight: 600; }
+details pre { white-space: pre-wrap; word-break: break-word; max-height: 30em;
+              overflow: auto; background: var(--panel2); padding: .75rem;
+              border-radius: 4px; font: 12.5px/1.5 "JetBrains Mono", monospace; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem;
+      margin: .5rem 0; }
+.kv dt { color: var(--muted); }
+footer { color: var(--muted); margin-top: 2rem; font-size: .85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>evalkit · <code>20260501T184809Z__692b09a4</code></h1>
+  <div class="muted">
+    Started 2026-05-01T18:48:10+00:00
+    · Dataset <code>/app/examples/03_rag_fintech/dataset.jsonl</code>
+    · Target <code>mock-keyword-rag</code>
+    (CallableTarget)
+    · evalkit 0.1.0
+  </div>
+</header>
+
+<section class="grid">
+  <div class="card">
+    <div class="label">Cases</div>
+    <div class="value">30</div>
+  </div>
+  <div class="card">
+    <div class="label">Pass rate</div>
+    <div class="value">86.7%</div>
+    
+  </div>
+  <div class="card">
+    <div class="label">Passed</div>
+    <div class="value pass">26</div>
+  </div>
+  <div class="card">
+    <div class="label">Failed</div>
+    <div class="value fail">4</div>
+  </div>
+  <div class="card">
+    <div class="label">Errored</div>
+    <div class="value err">0</div>
+  </div>
+  
+  <div class="card">
+    <div class="label">Latency p50</div>
+    <div class="value">0 <span class="muted" style="font-size:.6em">ms</span></div>
+  </div>
+  <div class="card">
+    <div class="label">Latency p95</div>
+    <div class="value">0 <span class="muted" style="font-size:.6em">ms</span></div>
+  </div>
+  
+  
+</section>
+
+<h2>Evaluators</h2>
+<table>
+  <thead><tr><th>name</th><th class="right">mean</th>
+  <th class="right">pass rate</th><th class="right">n</th>
+  
+  </tr></thead>
+  <tbody>
+  <tr>
+      <td><code>retrieval</code></td>
+      <td class="right">
+        <span class="scorebar"><span style="width: 86%"></span></span>
+        0.867
+      </td>
+      <td class="right">86.7%</td>
+      <td class="right">30</td>
+      
+    </tr>
+  <tr>
+      <td><code>answer_exact_match</code></td>
+      <td class="right">
+        <span class="scorebar"><span style="width: 86%"></span></span>
+        0.867
+      </td>
+      <td class="right">86.7%</td>
+      <td class="right">30</td>
+      
+    </tr>
+  
+  </tbody>
+</table>
+
+
+
+<h2>Cases</h2>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_001</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Under RBI&#39;s 2024 Master Direction on Income Recognition, after how many days past due must a retail loan account be classified as NPA?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;90 days past due (DPD).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_md_irac_2024&#34;,
+    &#34;rbi_circular_npa&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;90 days past due (DPD).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_md_irac_2024&#34;,
+    &#34;rbi_circular_npa&#34;,
+    &#34;sebi_sast_2011_reg2&#34;,
+    &#34;sebi_takeover_faqs&#34;,
+    &#34;sebi_pit_2015_reg2&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_002</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the minimum capital adequacy ratio (CRAR) required for scheduled commercial banks in India?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;9% under Basel III, with an additional capital conservation buffer of 2.5%, for a total of 11.5%.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;9% under Basel III, with an additional capital conservation buffer of 2.5%, for a total of 11.5%.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;rbi_lcr_master_circular&#34;,
+    &#34;rbi_basel3_liquidity&#34;,
+    &#34;rbi_psl_master&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_003</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the SEBI threshold for mandatory disclosure of material price-sensitive information by listed companies?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;There is no fixed monetary threshold; materiality is determined by the issuer&#39;s policy under Reg 30 of the LODR, with a minimum threshold of 2% of consolidated turnover, net worth, or PAT (whichever is lower) for some events.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;There is no fixed monetary threshold; materiality is determined by the issuer&#39;s policy under Reg 30 of the LODR, with a minimum threshold of 2% of consolidated turnover, net worth, or PAT (whichever is lower) for some events.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;,
+    &#34;sebi_sast_2011_reg3&#34;,
+    &#34;sebi_sast_2011_reg6&#34;,
+    &#34;sebi_brsr_2021&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_004</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the FDI cap for the insurance sector in India?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;74% under the automatic route, raised from 49% in 2021.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;irdai_fdi_2021&#34;,
+    &#34;fdi_policy_consolidated&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;74% under the automatic route, raised from 49% in 2021.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;irdai_fdi_2021&#34;,
+    &#34;fdi_policy_consolidated&#34;,
+    &#34;rbi_psl_master&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_005</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;How is &#39;persons acting in concert&#39; (PAC) defined under SEBI&#39;s Takeover Regulations?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Reg 2(1)(q) of SEBI (SAST) Regulations, 2011 defines PAC as persons who, with a common objective of acquiring control or substantial shares, cooperate directly or indirectly. Includes deemed PACs (promoters, group companies, etc.).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_sast_2011_reg2&#34;,
+    &#34;sebi_takeover_faqs&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Reg 2(1)(q) of SEBI (SAST) Regulations, 2011 defines PAC as persons who, with a common objective of acquiring control or substantial shares, cooperate directly or indirectly. Includes deemed PACs (promoters, group companies, etc.).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_sast_2011_reg2&#34;,
+    &#34;sebi_takeover_faqs&#34;,
+    &#34;sebi_sast_2011_reg3&#34;,
+    &#34;sebi_sast_2011_reg6&#34;,
+    &#34;sebi_pit_2015_reg2&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_006</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the minimum public shareholding (MPS) requirement and what happens if it is breached?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Listed companies must maintain MPS of at least 25%. Breach triggers a 12-month cure period, after which SEBI may direct the company to comply via OFS, IPP, or rights issue, and may impose fines up to ₹5,000/day.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_mps_circular&#34;,
+    &#34;sebi_lodr_reg38&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Listed companies must maintain MPS of at least 25%. Breach triggers a 12-month cure period, after which SEBI may direct the company to comply via OFS, IPP, or rights issue, and may impose fines up to ₹5,000/day.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_mps_circular&#34;,
+    &#34;sebi_lodr_reg38&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;rbi_lcr_master_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_007</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Compare the SEBI insider trading prohibition under PIT Regulations 2015 with the equivalent SEC rules in the US.&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;SEBI PIT 2015 prohibits trading by insiders (defined under Reg 2(g)) on UPSI, with structural similarity to SEC Rule 10b-5 / Section 16. Differences: India has a stricter &#39;connected person&#39; presumption (Reg 2(1)(d)); US relies more on the misappropriation theory established in O&#39;Hagan.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_pit_2015_reg2&#34;,
+    &#34;sebi_pit_2015_reg4&#34;,
+    &#34;comparative_law_note&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;SEBI PIT 2015 prohibits trading by insiders (defined under Reg 2(g)) on UPSI, with structural similarity to SEC Rule 10b-5 / Section 16. Differences: India has a stricter &#39;connected person&#39; presumption (Reg 2(1)(d)); US relies more on the misappropriation theory established in O&#39;Hagan.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_pit_2015_reg2&#34;,
+    &#34;sebi_pit_2015_reg4&#34;,
+    &#34;comparative_law_note&#34;,
+    &#34;sebi_sast_2011_reg2&#34;,
+    &#34;sebi_takeover_faqs&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.60 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_008</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Under what conditions can the RBI direct a bank to invoke the Prompt Corrective Action (PCA) framework?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;PCA is triggered when a bank breaches one or more of: CRAR &lt; regulatory minimum, Net NPAs ≥ 6%, or two consecutive years of negative ROA. Three risk thresholds determine corrective measures (restrictions on dividends, branch expansion, etc.).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_pca_2017_revised&#34;,
+    &#34;rbi_pca_amendment_2021&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;PCA is triggered when a bank breaches one or more of: CRAR &lt; regulatory minimum, Net NPAs ≥ 6%, or two consecutive years of negative ROA. Three risk thresholds determine corrective measures (restrictions on dividends, branch expansion, etc.).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_pca_2017_revised&#34;,
+    &#34;rbi_pca_amendment_2021&#34;,
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;companies_act_s149&#34;,
+    &#34;sebi_lodr_reg25&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_009</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What disclosures are required when a listed company appoints a new independent director?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Under LODR Reg 17 + Reg 30, the company must: (a) get prior shareholder approval (special resolution if age &gt;75), (b) disclose the appointment to stock exchanges within 24 hours, (c) provide DIR-12 to MCA within 30 days, (d) include in the next AGM notice with a brief profile and reasons for appointment.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;mca_dir12&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Under LODR Reg 17 + Reg 30, the company must: (a) get prior shareholder approval (special resolution if age &gt;75), (b) disclose the appointment to stock exchanges within 24 hours, (c) provide DIR-12 to MCA within 30 days, (d) include in the next AGM notice with a brief profile and reasons for appointment.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;mca_dir12&#34;,
+    &#34;companies_act_s149&#34;,
+    &#34;sebi_lodr_reg25&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.60 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_010</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the LCR (Liquidity Coverage Ratio) requirement for Indian banks?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;100% of net cash outflows over a 30-day stress period, must be held in HQLA (High-Quality Liquid Assets). Phased in fully by 2019.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_lcr_master_circular&#34;,
+    &#34;rbi_basel3_liquidity&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;100% of net cash outflows over a 30-day stress period, must be held in HQLA (High-Quality Liquid Assets). Phased in fully by 2019.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_lcr_master_circular&#34;,
+    &#34;rbi_basel3_liquidity&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;sebi_mps_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_011</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;How does SEBI&#39;s framework for SME IPOs differ from the main-board IPO requirements?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;SME IPOs (under SEBI ICDR Reg 229–238) have lower track-record requirements (no profitability mandatory), minimum post-issue paid-up capital of ₹3 cr, minimum 50 allottees, market-making mandatory for 3 years, listed on SME exchanges (NSE Emerge, BSE SME).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_icdr_chapter9&#34;,
+    &#34;sebi_icdr_reg229&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;SME IPOs (under SEBI ICDR Reg 229–238) have lower track-record requirements (no profitability mandatory), minimum post-issue paid-up capital of ₹3 cr, minimum 50 allottees, market-making mandatory for 3 years, listed on SME exchanges (NSE Emerge, BSE SME).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_icdr_chapter9&#34;,
+    &#34;sebi_icdr_reg229&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;,
+    &#34;sebi_sast_2011_reg2&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_012</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the maximum permissible LTV ratio for housing loans up to ₹30 lakh?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;90% for housing loans up to ₹30 lakh, 80% for loans above ₹30 lakh and up to ₹75 lakh, 75% for loans above ₹75 lakh.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_housing_finance_master&#34;,
+    &#34;rbi_ltv_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;90% for housing loans up to ₹30 lakh, 80% for loans above ₹30 lakh and up to ₹75 lakh, 75% for loans above ₹75 lakh.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_housing_finance_master&#34;,
+    &#34;rbi_ltv_circular&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;rbi_lcr_master_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_013</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the cooling-off period for an independent director under the Companies Act, 2013?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;An independent director can serve a maximum of two consecutive 5-year terms. After that, a 3-year cooling-off period applies before re-appointment in the same company. Section 149(11) of the Companies Act 2013.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;companies_act_s149&#34;,
+    &#34;sebi_lodr_reg25&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;An independent director can serve a maximum of two consecutive 5-year terms. After that, a 3-year cooling-off period applies before re-appointment in the same company. Section 149(11) of the Companies Act 2013.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;companies_act_s149&#34;,
+    &#34;sebi_lodr_reg25&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;sebi_lodr_amendment_2018&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_014</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What KYC documentation is required for an FPI Category I registration?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Cat I FPIs (lowest risk: govt funds, central banks, sovereign wealth funds, etc.) require: (a) KYC form, (b) certificate of incorporation, (c) board resolution, (d) authorized signatories list. Simplified KYC vs Cat II.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_fpi_2019_reg5&#34;,
+    &#34;sebi_fpi_kyc_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Cat I FPIs (lowest risk: govt funds, central banks, sovereign wealth funds, etc.) require: (a) KYC form, (b) certificate of incorporation, (c) board resolution, (d) authorized signatories list. Simplified KYC vs Cat II.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_fpi_2019_reg5&#34;,
+    &#34;sebi_fpi_kyc_circular&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;sebi_lodr_reg30&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_015</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Are mutual fund schemes allowed to invest in unlisted equity?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Yes, but capped at 10% of NAV for equity schemes (excluding unlisted shares of Group companies of the AMC). Subject to SEBI MF Regulations Reg 44 and the 10% concentration limit.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_mf_reg44&#34;,
+    &#34;sebi_mf_master_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Yes, but capped at 10% of NAV for equity schemes (excluding unlisted shares of Group companies of the AMC). Subject to SEBI MF Regulations Reg 44 and the 10% concentration limit.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_mf_reg44&#34;,
+    &#34;sebi_mf_master_circular&#34;,
+    &#34;sebi_buyback_2018_reg4&#34;,
+    &#34;sebi_buyback_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.50 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_016</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;How are NBFC-MFIs regulated differently from banks for microfinance lending?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;RBI&#39;s 2022 unified microfinance framework applies the same household-income and indebtedness ceilings to all regulated lenders. Differences remain in capital requirements (NBFC-MFI: 15% CRAR vs banks&#39; Basel III), and pricing is now uncapped (replaced earlier 26% margin cap).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_mf_2022_unified&#34;,
+    &#34;rbi_nbfc_mfi_master&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;RBI&#39;s 2022 unified microfinance framework applies the same household-income and indebtedness ceilings to all regulated lenders. Differences remain in capital requirements (NBFC-MFI: 15% CRAR vs banks&#39; Basel III), and pricing is now uncapped (replaced earlier 26% margin cap).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_mf_2022_unified&#34;,
+    &#34;rbi_nbfc_mfi_master&#34;,
+    &#34;rbi_colending_2020&#34;,
+    &#34;rbi_psl_master&#34;,
+    &#34;rbi_foreign_bank_psl&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_017</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What are the SEBI buyback regulations restrictions on debt-to-equity ratio?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Post-buyback debt-to-equity ratio cannot exceed 2:1, except for sectors where higher leverage is permitted (e.g., NBFCs at 6:1). Reg 4(ii) of SEBI Buyback Regulations 2018.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_buyback_2018_reg4&#34;,
+    &#34;sebi_buyback_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Post-buyback debt-to-equity ratio cannot exceed 2:1, except for sectors where higher leverage is permitted (e.g., NBFCs at 6:1). Reg 4(ii) of SEBI Buyback Regulations 2018.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_buyback_2018_reg4&#34;,
+    &#34;sebi_buyback_circular&#34;,
+    &#34;sebi_sast_2011_reg3&#34;,
+    &#34;sebi_sast_2011_reg6&#34;,
+    &#34;rbi_basel3_master&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_018</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the regulatory treatment of crypto-assets under Indian law?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Crypto is not legal tender (RBI). It is taxed at 30% on gains plus 1% TDS on transfers &gt; ₹50,000/year (Finance Act 2022). FIU-IND requires VDA service providers to register and follow PMLA AML/KYC norms. There is no SEBI registration regime for VDAs as of 2024.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;finance_act_2022_s115bbh&#34;,
+    &#34;fiu_ind_vda_2023&#34;,
+    &#34;rbi_crypto_circulars&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Crypto is not legal tender (RBI). It is taxed at 30% on gains plus 1% TDS on transfers &gt; ₹50,000/year (Finance Act 2022). FIU-IND requires VDA service providers to register and follow PMLA AML/KYC norms. There is no SEBI registration regime for VDAs as of 2024.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;finance_act_2022_s115bbh&#34;,
+    &#34;fiu_ind_vda_2023&#34;,
+    &#34;rbi_crypto_circulars&#34;,
+    &#34;sebi_brsr_2021&#34;,
+    &#34;sebi_brsr_core_2023&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.60 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_019</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the time limit for SEBI to dispose of an investigation?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;There is no statutory limit, but the SEBI Manual on Investigations targets 18 months for routine cases. Order under Section 11/11B must follow rules of natural justice (Sahara II case principles).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_manual_investigation&#34;,
+    &#34;sebi_act_s11&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;There is no statutory limit, but the SEBI Manual on Investigations targets 18 months for routine cases. Order under Section 11/11B must follow rules of natural justice (Sahara II case principles).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_manual_investigation&#34;,
+    &#34;sebi_act_s11&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;,
+    &#34;sebi_lodr_reg17&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_020</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is RBI&#39;s policy on co-lending between banks and NBFCs?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Per RBI&#39;s 2020 framework, banks and NBFCs can co-lend in 80:20 ratio for priority-sector loans. NBFC originates and underwrites; bank takes 80% on its books. Borrower must be informed of co-lending arrangement.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_colending_2020&#34;,
+    &#34;rbi_psl_master&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Per RBI&#39;s 2020 framework, banks and NBFCs can co-lend in 80:20 ratio for priority-sector loans. NBFC originates and underwrites; bank takes 80% on its books. Borrower must be informed of co-lending arrangement.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_colending_2020&#34;,
+    &#34;rbi_psl_master&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;rbi_lcr_master_circular&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details open>
+  <summary>
+    <span class="fail">✗</span>
+    <code>rag_021</code> <span class="muted">·
+      out_of_corpus</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the predicted closing price of NIFTY 50 tomorrow?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Out of corpus / out of scope: this RAG system answers questions about Indian financial regulations and should refuse market predictions.&#34;,
+  &#34;relevant_ids&#34;: []
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;I can only answer questions about Indian financial regulations.&#34;,
+  &#34;retrieved_ids&#34;: [],
+  &#34;confidence&#34;: 0.05
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">could not extract relevant list (path=&#39;relevant_ids&#39;)</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">mismatch: expected=&#39;out of corpus out of scope this rag system answers questions about indian financial regulations and should refuse market predictions&#39; got=&#39;i can only answer questions about indian financial regulations&#39;</div>
+  </div>
+  
+</details>
+
+<details open>
+  <summary>
+    <span class="fail">✗</span>
+    <code>rag_022</code> <span class="muted">·
+      out_of_corpus</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Write me a haiku about the Reserve Bank of India.&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Out of corpus / out of scope: this RAG system answers questions about Indian financial regulations and should refuse creative-writing tasks.&#34;,
+  &#34;relevant_ids&#34;: []
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;I can only answer questions about Indian financial regulations.&#34;,
+  &#34;retrieved_ids&#34;: [],
+  &#34;confidence&#34;: 0.05
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">could not extract relevant list (path=&#39;relevant_ids&#39;)</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">mismatch: expected=&#39;out of corpus out of scope this rag system answers questions about indian financial regulations and should refuse creativewriting tasks&#39; got=&#39;i can only answer questions about indian financial regulations&#39;</div>
+  </div>
+  
+</details>
+
+<details open>
+  <summary>
+    <span class="fail">✗</span>
+    <code>rag_023</code> <span class="muted">·
+      out_of_corpus</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Who won the 2023 cricket world cup?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Out of corpus / out of scope: this RAG system answers questions about Indian financial regulations.&#34;,
+  &#34;relevant_ids&#34;: []
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;I can only answer questions about Indian financial regulations.&#34;,
+  &#34;retrieved_ids&#34;: [],
+  &#34;confidence&#34;: 0.05
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">could not extract relevant list (path=&#39;relevant_ids&#39;)</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">mismatch: expected=&#39;out of corpus out of scope this rag system answers questions about indian financial regulations&#39; got=&#39;i can only answer questions about indian financial regulations&#39;</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_024</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the threshold for mandatory open offer under SEBI Takeover Regulations?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Acquisition of 25% or more of voting rights triggers a mandatory open offer for at least 26% additional shares. Reg 3(1) of SEBI SAST Regulations 2011. Creeping acquisition allowed up to 5% per FY between 25% and 75%.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_sast_2011_reg3&#34;,
+    &#34;sebi_sast_2011_reg6&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Acquisition of 25% or more of voting rights triggers a mandatory open offer for at least 26% additional shares. Reg 3(1) of SEBI SAST Regulations 2011. Creeping acquisition allowed up to 5% per FY between 25% and 75%.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_sast_2011_reg3&#34;,
+    &#34;sebi_sast_2011_reg6&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;,
+    &#34;sebi_sast_2011_reg2&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_025</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the difference between standstill and waterfall mechanisms under the IBC?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Standstill: a moratorium under Section 14 of the IBC during the CIRP, halting all enforcement actions. Waterfall: priority of claims under Section 53 during liquidation (insolvency costs &gt; workmen&#39;s dues &gt; secured creditors &gt; etc.).&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;ibc_2016_s14&#34;,
+    &#34;ibc_2016_s53&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Standstill: a moratorium under Section 14 of the IBC during the CIRP, halting all enforcement actions. Waterfall: priority of claims under Section 53 during liquidation (insolvency costs &gt; workmen&#39;s dues &gt; secured creditors &gt; etc.).&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;ibc_2016_s14&#34;,
+    &#34;ibc_2016_s53&#34;,
+    &#34;rbi_pca_2017_revised&#34;,
+    &#34;rbi_pca_amendment_2021&#34;,
+    &#34;sebi_lodr_reg17&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_026</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Are gold loans by NBFCs subject to LTV caps?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Yes. Maximum LTV for gold loans by NBFCs is 75% of the value of gold (RBI&#39;s NBFC Master Direction). For banks, the limit is also 75% as per RBI&#39;s gold-loan circular.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_nbfc_master&#34;,
+    &#34;rbi_gold_loan_circular&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Yes. Maximum LTV for gold loans by NBFCs is 75% of the value of gold (RBI&#39;s NBFC Master Direction). For banks, the limit is also 75% as per RBI&#39;s gold-loan circular.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_nbfc_master&#34;,
+    &#34;rbi_gold_loan_circular&#34;,
+    &#34;rbi_housing_finance_master&#34;,
+    &#34;rbi_ltv_circular&#34;,
+    &#34;rbi_colending_2020&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_027</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the regulatory architecture for ESG disclosures by Indian listed companies?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Top 1,000 listed companies (by market cap) must file BRSR (Business Responsibility and Sustainability Report) annually. SEBI introduced BRSR Core for top 150 companies (FY24) requiring assurance, expanding to top 1,000 by FY27.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_brsr_2021&#34;,
+    &#34;sebi_brsr_core_2023&#34;,
+    &#34;sebi_lodr_reg34&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Top 1,000 listed companies (by market cap) must file BRSR (Business Responsibility and Sustainability Report) annually. SEBI introduced BRSR Core for top 150 companies (FY24) requiring assurance, expanding to top 1,000 by FY27.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_brsr_2021&#34;,
+    &#34;sebi_brsr_core_2023&#34;,
+    &#34;sebi_lodr_reg34&#34;,
+    &#34;sebi_lodr_reg30&#34;,
+    &#34;sebi_circular_materiality&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.60 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_028</code> <span class="muted">·
+      multi_doc</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Explain the priority sector lending (PSL) targets for foreign banks with branch presence in India.&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Foreign banks with 20+ branches: 40% of ANBC for total PSL, with sub-targets matching domestic banks. Foreign banks with &lt;20 branches: 40% of ANBC overall but no sub-targets, with 32% to be lent to exports.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;rbi_psl_master&#34;,
+    &#34;rbi_foreign_bank_psl&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;Foreign banks with 20+ branches: 40% of ANBC for total PSL, with sub-targets matching domestic banks. Foreign banks with &lt;20 branches: 40% of ANBC overall but no sub-targets, with 32% to be lent to exports.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;rbi_psl_master&#34;,
+    &#34;rbi_foreign_bank_psl&#34;,
+    &#34;rbi_basel3_master&#34;,
+    &#34;rbi_crar_circular&#34;,
+    &#34;irdai_fdi_2021&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details >
+  <summary>
+    <span class="pass">✓</span>
+    <code>rag_029</code> <span class="muted">·
+      lookup</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;What is the upper age limit for an independent director under LODR?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;There is no absolute upper age limit, but for IDs aged ≥75, a special resolution by shareholders is required. Reg 17(1A) of LODR.&#34;,
+  &#34;relevant_ids&#34;: [
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;sebi_lodr_amendment_2018&#34;
+  ]
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;There is no absolute upper age limit, but for IDs aged ≥75, a special resolution by shareholders is required. Reg 17(1A) of LODR.&#34;,
+  &#34;retrieved_ids&#34;: [
+    &#34;sebi_lodr_reg17&#34;,
+    &#34;sebi_lodr_amendment_2018&#34;,
+    &#34;companies_act_s149&#34;,
+    &#34;sebi_lodr_reg25&#34;,
+    &#34;sebi_lodr_reg30&#34;
+  ],
+  &#34;confidence&#34;: 0.5
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">recall@5=1.00 precision@5=0.40 mrr=1.00</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="pass">
+      ✓
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 100%"></span></span>
+    1.00
+    <div class="muted" style="margin-left:1.5em">strings match after normalization</div>
+  </div>
+  
+</details>
+
+<details open>
+  <summary>
+    <span class="fail">✗</span>
+    <code>rag_030</code> <span class="muted">·
+      out_of_corpus</span>
+    <span class="muted" style="float:right">0 ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{
+  &#34;question&#34;: &#34;Should I buy HDFC Bank stock right now?&#34;
+}</code></dd>
+    
+    <dt>expected</dt><dd><code>{
+  &#34;answer&#34;: &#34;Out of corpus / out of scope: this RAG system does not provide investment advice.&#34;,
+  &#34;relevant_ids&#34;: []
+}</code></dd>
+    
+    <dt>output</dt><dd><pre>{
+  &#34;answer&#34;: &#34;I can only answer questions about Indian financial regulations.&#34;,
+  &#34;retrieved_ids&#34;: [],
+  &#34;confidence&#34;: 0.05
+}</pre></dd>
+    
+  </dl>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>retrieval</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">could not extract relevant list (path=&#39;relevant_ids&#39;)</div>
+  </div>
+  
+  <div style="margin-top:.5rem">
+    <span class="fail">
+      ✗
+    </span>
+    <code>answer_exact_match</code>
+    <span class="scorebar"><span style="width: 0%"></span></span>
+    0.00
+    <div class="muted" style="margin-left:1.5em">mismatch: expected=&#39;out of corpus out of scope this rag system does not provide investment advice&#39; got=&#39;i can only answer questions about indian financial regulations&#39;</div>
+  </div>
+  
+</details>
+
+
+<footer>
+  Generated by evalkit 0.1.0 ·
+  <code>20260501T184809Z__692b09a4</code>
+</footer>
+</body>
+</html>

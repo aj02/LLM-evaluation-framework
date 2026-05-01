@@ -1,0 +1,32 @@
+{
+  "run_id": "20260501T184812Z__f3880c43",
+  "started_at": "2026-05-01T18:48:13.140148Z",
+  "finished_at": "2026-05-01T18:48:13.140127Z",
+  "dataset_path": "/app/examples/04_model_comparison/dataset.jsonl",
+  "target_summary": {
+    "type": "CallableTarget",
+    "name": "mock-a",
+    "fn": "_lookup_factory.<locals>.fn"
+  },
+  "n_cases": 15,
+  "n_passed": 13,
+  "n_failed": 2,
+  "n_errored": 0,
+  "pass_rate": 0.8666666666666667,
+  "aggregate_metrics": [
+    {
+      "name": "exact_match",
+      "mean": 0.8666666666666667,
+      "pass_rate": 0.8666666666666667,
+      "n": 15
+    }
+  ],
+  "latency_ms": {
+    "mean": 0.03666546933042506,
+    "p50": 0.03401300637051463,
+    "p95": 0.049214888713322566,
+    "p99": 0.05857978656422346,
+    "max": 0.06092101102694869
+  },
+  "framework_version": "0.1.0"
+}
