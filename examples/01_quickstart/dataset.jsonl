@@ -1,0 +1,5 @@
+{"id": "smoke_hello", "input": {"text": "hello"}, "expected": "HELLO", "metadata": {"category": "smoke"}}
+{"id": "smoke_world", "input": {"text": "world"}, "expected": "WORLD", "metadata": {"category": "smoke"}}
+{"id": "smoke_punct", "input": {"text": "Hi, there!"}, "expected": "HI, THERE!", "metadata": {"category": "smoke"}}
+{"id": "smoke_mixed", "input": {"text": "MixedCase 123"}, "expected": "MIXEDCASE 123", "metadata": {"category": "smoke"}}
+{"id": "smoke_empty", "input": {"text": ""}, "expected": "", "metadata": {"category": "edge"}}

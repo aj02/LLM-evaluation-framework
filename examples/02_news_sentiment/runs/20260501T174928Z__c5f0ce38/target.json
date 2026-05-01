@@ -1,0 +1,5 @@
+{
+  "type": "CallableTarget",
+  "name": "mock-keyword-sentiment",
+  "fn": "_mock_sentiment"
+}

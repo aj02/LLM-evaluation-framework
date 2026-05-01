@@ -1,0 +1,17 @@
+# OpenAI GPT-4o-mini target via HTTP. Requires OPENAI_API_KEY in env.
+type: http
+name: gpt-4o-mini
+url: https://api.openai.com/v1/chat/completions
+method: POST
+headers:
+  content-type: application/json
+  # authorization: set via CLI: --header "authorization=Bearer $OPENAI_API_KEY"
+payload_template: |
+  {
+    "model": "gpt-4o-mini",
+    "max_tokens": 100,
+    "temperature": 0.0,
+    "messages": [{"role": "user", "content": {{ input.prompt | tojson }}}]
+  }
+response_path: choices[0].message.content
+timeout_s: 30

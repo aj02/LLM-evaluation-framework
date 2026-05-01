@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>evalkit — {{ report.run_id }}</title>
+<style>
+:root {
+  --bg: #0e1116; --panel: #161b22; --panel2: #1f2530;
+  --fg: #e6edf3; --muted: #8b949e; --border: #30363d;
+  --green: #3fb950; --red: #f85149; --amber: #d29922; --blue: #58a6ff;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg: #ffffff; --panel: #f6f8fa; --panel2: #eaeef2; --fg: #1f2328;
+          --muted: #57606a; --border: #d0d7de;
+          --green: #1a7f37; --red: #cf222e; --amber: #9a6700; --blue: #0969da; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 2rem; background: var(--bg); color: var(--fg);
+       font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+       Helvetica, Arial, sans-serif; }
+header { margin-bottom: 1.5rem; }
+h1 { margin: 0 0 .25rem; font-size: 1.4rem; }
+h2 { margin: 1.5rem 0 .5rem; font-size: 1.1rem; }
+.muted { color: var(--muted); }
+code { background: var(--panel2); padding: .1rem .35rem; border-radius: 4px;
+       font: 12.5px/1.4 "JetBrains Mono", "SF Mono", Menlo, monospace; }
+.grid { display: grid; gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.card { background: var(--panel); border: 1px solid var(--border);
+        border-radius: 8px; padding: 1rem; }
+.card .label { color: var(--muted); font-size: .8rem;
+               text-transform: uppercase; letter-spacing: .05em; }
+.card .value { font-size: 1.6rem; font-weight: 600; margin-top: .25rem; }
+.card .delta { font-size: .85rem; margin-top: .25rem; }
+.delta.good { color: var(--green); }
+.delta.bad { color: var(--red); }
+.delta.neutral { color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin-top: .5rem;
+        background: var(--panel); border: 1px solid var(--border);
+        border-radius: 8px; overflow: hidden; }
+th, td { padding: .55rem .75rem; text-align: left;
+         border-bottom: 1px solid var(--border); }
+th { background: var(--panel2); font-weight: 600; font-size: .85rem;
+     color: var(--muted); }
+tr:last-child td { border-bottom: none; }
+.pass { color: var(--green); font-weight: 600; }
+.fail { color: var(--red); font-weight: 600; }
+.err { color: var(--amber); font-weight: 600; }
+.scorebar { display: inline-block; width: 80px; height: 6px;
+            background: var(--panel2); border-radius: 3px;
+            vertical-align: middle; margin-right: .5rem; overflow: hidden; }
+.scorebar > span { display: block; height: 100%; background: var(--blue); }
+.right { text-align: right; }
+details { background: var(--panel); border: 1px solid var(--border);
+          border-radius: 6px; padding: .5rem .8rem; margin: .35rem 0; }
+details > summary { cursor: pointer; font-weight: 600; }
+details pre { white-space: pre-wrap; word-break: break-word; max-height: 30em;
+              overflow: auto; background: var(--panel2); padding: .75rem;
+              border-radius: 4px; font: 12.5px/1.5 "JetBrains Mono", monospace; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem;
+      margin: .5rem 0; }
+.kv dt { color: var(--muted); }
+footer { color: var(--muted); margin-top: 2rem; font-size: .85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>evalkit · <code>{{ report.run_id }}</code></h1>
+  <div class="muted">
+    Started {{ report.started_at.isoformat(timespec="seconds") }}
+    · Dataset <code>{{ report.dataset_path }}</code>
+    · Target <code>{{ report.target_summary.get("name", "?") }}</code>
+    ({{ report.target_summary.get("type", "?") }})
+    · evalkit {{ report.framework_version }}
+  </div>
+</header>
+
+<section class="grid">
+  <div class="card">
+    <div class="label">Cases</div>
+    <div class="value">{{ report.n_cases }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Pass rate</div>
+    <div class="value">{{ "%.1f"|format(report.pass_rate * 100) }}%</div>
+    {% if comparison %}
+    {%- set d = comparison.delta_pass_rate * 100 -%}
+    <div class="delta {% if d > 0 %}good{% elif d < 0 %}bad{% else %}neutral{% endif %}">
+      {% if d > 0 %}+{% endif %}{{ "%.1f"|format(d) }}pp vs previous
+    </div>
+    {% endif %}
+  </div>
+  <div class="card">
+    <div class="label">Passed</div>
+    <div class="value pass">{{ report.n_passed }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Failed</div>
+    <div class="value fail">{{ report.n_failed }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Errored</div>
+    <div class="value err">{{ report.n_errored }}</div>
+  </div>
+  {% if report.latency_ms %}
+  <div class="card">
+    <div class="label">Latency p50</div>
+    <div class="value">{{ "%.0f"|format(report.latency_ms.get("p50", 0)) }} <span class="muted" style="font-size:.6em">ms</span></div>
+  </div>
+  <div class="card">
+    <div class="label">Latency p95</div>
+    <div class="value">{{ "%.0f"|format(report.latency_ms.get("p95", 0)) }} <span class="muted" style="font-size:.6em">ms</span></div>
+  </div>
+  {% endif %}
+  {% if total_cost > 0 %}
+  <div class="card">
+    <div class="label">Judge cost</div>
+    <div class="value">${{ "%.4f"|format(total_cost) }}</div>
+    <div class="muted">{{ total_in_tokens }}+{{ total_out_tokens }} tokens</div>
+  </div>
+  {% endif %}
+</section>
+
+<h2>Evaluators</h2>
+<table>
+  <thead><tr><th>name</th><th class="right">mean</th>
+  <th class="right">pass rate</th><th class="right">n</th>
+  {% if comparison %}<th class="right">Δ mean</th><th class="right">Δ pass</th>{% endif %}
+  </tr></thead>
+  <tbody>
+  {% for m in report.aggregate_metrics %}
+    {%- set d = comparison_by_name.get(m.name) if comparison else None -%}
+    <tr>
+      <td><code>{{ m.name }}</code></td>
+      <td class="right">
+        <span class="scorebar"><span style="width: {{ (m.mean * 100)|int }}%"></span></span>
+        {{ "%.3f"|format(m.mean) }}
+      </td>
+      <td class="right">{{ "%.1f"|format(m.pass_rate * 100) }}%</td>
+      <td class="right">{{ m.n }}</td>
+      {% if comparison %}
+      <td class="right {% if d and d.delta_mean > 0 %}pass{% elif d and d.delta_mean < 0 %}fail{% endif %}">
+        {% if d %}{{ "%+.3f"|format(d.delta_mean) }}{% else %}—{% endif %}
+      </td>
+      <td class="right {% if d and d.delta_pass_rate > 0 %}pass{% elif d and d.delta_pass_rate < 0 %}fail{% endif %}">
+        {% if d %}{{ "%+.1f"|format(d.delta_pass_rate * 100) }}pp{% else %}—{% endif %}
+      </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if comparison and comparison.flips %}
+<h2>Flips vs previous run ({{ comparison.flips|length }})</h2>
+<table>
+  <thead><tr><th>case</th><th>direction</th><th>was</th><th>is</th></tr></thead>
+  <tbody>
+  {% for f in comparison.flips %}
+    <tr>
+      <td><code>{{ f.case_id }}</code></td>
+      <td class="{% if f.direction == 'improved' %}pass{% else %}fail{% endif %}">{{ f.direction }}</td>
+      <td>{{ f.a_passed }}</td>
+      <td>{{ f.b_passed }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+<h2>Cases</h2>
+{% for c in report.cases %}
+<details {% if not c.passed %}open{% endif %}>
+  <summary>
+    {% if c.error %}<span class="err">⚠</span>
+    {%- elif c.passed %}<span class="pass">✓</span>
+    {%- else %}<span class="fail">✗</span>{% endif %}
+    <code>{{ c.case_id }}</code>
+    {%- if c.metadata.get("category") %} <span class="muted">·
+      {{ c.metadata.category }}</span>{% endif %}
+    <span class="muted" style="float:right">{{ "%.0f"|format(c.latency_ms) }} ms</span>
+  </summary>
+  <dl class="kv">
+    <dt>input</dt><dd><code>{{ c.input | tojson | truncate(800) }}</code></dd>
+    {% if c.expected is not none %}
+    <dt>expected</dt><dd><code>{{ c.expected | tojson | truncate(800) }}</code></dd>
+    {% endif %}
+    <dt>output</dt><dd><pre>{{ c.output | tojson if c.output is not string else c.output }}</pre></dd>
+    {% if c.error %}
+    <dt>error</dt><dd class="err"><code>{{ c.error }}</code></dd>
+    {% endif %}
+  </dl>
+  {% for ev in c.evaluators %}
+  <div style="margin-top:.5rem">
+    <span class="{% if ev.passed %}pass{% else %}fail{% endif %}">
+      {% if ev.passed %}✓{% else %}✗{% endif %}
+    </span>
+    <code>{{ ev.name }}</code>
+    <span class="scorebar"><span style="width: {{ (ev.score * 100)|int }}%"></span></span>
+    {{ "%.2f"|format(ev.score) }}
+    <div class="muted" style="margin-left:1.5em">{{ ev.reasoning }}</div>
+  </div>
+  {% endfor %}
+</details>
+{% endfor %}
+
+<footer>
+  Generated by evalkit {{ report.framework_version }} ·
+  <code>{{ report.run_id }}</code>
+</footer>
+</body>
+</html>

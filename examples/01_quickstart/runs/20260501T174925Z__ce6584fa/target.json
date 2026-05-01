@@ -1,0 +1,5 @@
+{
+  "type": "CallableTarget",
+  "name": "uppercase",
+  "fn": "uppercase_target"
+}

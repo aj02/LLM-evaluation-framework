@@ -1,0 +1,17 @@
+# Points at the SEBI/RBI RAG system (separate repo) running locally on port
+# 8001. The /ask endpoint accepts {"question": "..."} and returns:
+#   {
+#     "answer": "...",
+#     "retrieved_ids": ["doc_id_1", "doc_id_2", ...],
+#     "confidence": 0.0-1.0
+#   }
+type: http
+name: sebi-rbi-rag
+url: http://localhost:8001/ask
+method: POST
+headers:
+  content-type: application/json
+payload_template: '{{ input | tojson }}'
+# No response_path: we return the whole dict so retrieval evaluator can read
+# `retrieved_ids` and the LLM judge can read `answer`.
+timeout_s: 30

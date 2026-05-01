@@ -1,0 +1,5 @@
+{
+  "type": "CallableTarget",
+  "name": "mock-b",
+  "fn": "_lookup_factory.<locals>.fn"
+}

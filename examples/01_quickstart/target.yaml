@@ -1,0 +1,15 @@
+# Optional CLI target: an HTTP echo server. The Python entry point at
+# `run.py` uses a CallableTarget instead, so you don't need anything running.
+# Uncomment + edit if you want to point evalkit's CLI at your own server.
+#
+# type: http
+# name: my-echo
+# url: http://localhost:8000/upper
+# method: POST
+# headers: { content-type: application/json }
+# payload_template: '{{ input | tojson }}'
+# response_path: text
+type: shell
+name: uppercase-shell
+command_template: 'python -c "import sys, json; d=json.loads(sys.argv[1]); print(d[\"text\"].upper(), end=\"\")" "{{ input | tojson }}"'
+timeout_s: 10

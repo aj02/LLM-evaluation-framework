@@ -1,0 +1,5 @@
+{
+  "type": "CallableTarget",
+  "name": "mock-keyword-rag",
+  "fn": "_mock_rag_factory.<locals>.fn"
+}

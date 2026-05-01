@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# evalkit — we DO commit examples/*/runs/ for showcase, but the
+# top-level runs/ and any user-cwd runs are ephemeral.
+/runs/

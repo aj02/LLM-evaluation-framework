@@ -1,0 +1,15 @@
+# Points at the news sentiment analyzer (separate repo) running locally on
+# port 8000. The /analyze endpoint accepts {"headline", "body"} and returns
+# {"sentiment": "positive|negative|neutral", "confidence": <float>}.
+#
+# To swap in a different deployment, change `url`. Headers can include an
+# auth token via standard env-var substitution patterns in your shell.
+type: http
+name: news-sentiment-analyzer
+url: http://localhost:8000/analyze
+method: POST
+headers:
+  content-type: application/json
+payload_template: '{{ input | tojson }}'
+response_path: sentiment
+timeout_s: 15
